@@ -1,0 +1,292 @@
+# Artifacts for "Requirement-Driven Generation of Distributed Ledger Architectures"
+
+Authors: Noor Al-Gburi, András Földvári, Kristóf Marussy, Oszkár Semeráth and Imre Kocsis
+
+## Status
+
+We claim the **Available** badge:
+
+* The artifact is available on Zenodo at https://doi.org/10.5281/zenodo.12556827 under the Eclipse Public License - v2.0
+
+We claim the **Functional** badge:
+
+* The artifact contains benchmark and data analysis scripts that reproduce our evaluation from Section 5 of our paper. In particular,
+  * The generated plots titled _Median of Refinery Model Generation Runtime and Success rate_ support claims made about the runtime and success rate of Refinery in Section 5.3 of our paper by reproducing Figure 12.
+  * The generated plots titled _Median of ASP solving time_ support claims made about the runtime of ASP solving in Section 5.3 of our paper by reproducing Figure 13.
+  * The generated plots title _Cost/Resilience of the Solutions_ support claims made about the cost/resilience trade-off of generated architectures in Section 5.3 of our paper by reproducing Figure 14.
+  * The generated models are a valid, diverse set of candidate blockchain architectures and are solutions the corresponding architecture generation problem. An example design is also shown in the paper in Figure 6.
+* After running the benchmarks, these claims can be verified using the included Jupyter web-based data analysis environment.
+
+We claim the **Reusable** badge:
+
+* The structure of the artifact and our prototype tool is clearly documented to facilitate reuse and enable building new software tools and artifacts on it.
+* The prototype can be reused to solve further blockchain architecture synthesis challenges. In particular,
+  * A Refinery formalization of Hyperledger Fabric architectures is included in the artifact.
+  * The Refinery and ASP problems can be customized to suit the synthesis challenge.
+  * A Refinery web-based partial modeling environment is included to facilitate customizing the Refinery problems.
+  * The prototype tool can be used to execute the synthesis.
+  * A Jupyter web-based data analysis environment in included to analyze the cost/resilience trade-offs (or trade-offs in other metrics as formalized in the ASP problem).
+
+## Requirements
+
+This artifact is Docker container and required Docker to build or run.
+We used Docker version 26.1.4, but other compatible versions may also be suitable.
+
+Building the artifact using the supplied source code and `Dockerfile` downloads dependencies from the internet according to standard dependency specification files (`build.gradle`, `environment.yml`).
+However, our exported, pre-built container may be imported and run without an internet connection, as it already contains all dependencies.
+
+To access the web-based partial modeling and data analysis environments in the artifact, a modern web browser (e.g., recent releases of Chromium, Firefox, or Safari) is needed.
+To this end, the Docker container exposes ports 8888 and 8889, and local firewall settings should allow the browser to access these forwarded ports.
+
+Benchmarks were executed on a laptop with a 4-core Intel CPU and 32 GiB of RAM.
+Hardware with lesser specification may also be suitable, but may increase benchmark runtime and change benchmark results.
+
+For preliminary checks, a selected subset of benchmarks is supplied that may take 15-30 minutes to execute.
+The full benchmark suite may take up to 24 hours if all iterations time out, but may be much faster depending on the hardware configuration.
+
+## Structure of the artifact
+
+The artifact is packaged as a standard Docker container, which contains our prototype blockchain architecture generation tool, benchmark inputs and outputs gathered during our evaluation, and benchmark execution and data analysis scripts.
+We also provide the full source code of the artifact and the corresponding version of the Refinery framework as a separate archive.
+
+* `models24-refinery-blockchain.tar.gz`: The exported Docker container.
+  * `/app/`: Working directory for the artifact.
+    * `ASP/`: Answer Set Programming source code for resilience score calculation.
+      * `analysis_kafka.lp`: ASP for evaluating Kafka-based architectures.
+      * `analysis_raft.lp`: ASP for evaluating Raft-based architecture.
+    * `benchmark_full.sh`: Executes the full set of benchmarks from our evaluation with 3 Kafka-based and 6 Raft-based architecture generation problems, 30 iterations each with a timeout of 300 seconds.
+    * `benchmark_quick.sh`: Executes a subset of benchmark with 1 Kafka-based and 2 Raft-based architecture generation problems, 10 iterations each with a timeout of 60 seconds.
+    * `environment.yml`: Dependency description file for the Conda Python environment installed to `/home/refinery/conda`.
+    * `Evaluation_Kafka.ipynb`: Data analysis scripts for Kafka-based architectures.
+    * `Evaluation_Raft.ipynb`: Data analysis scripts for Raft-based architectures.
+    * `models24-refinery-blockchain.pdf`: A copy of our paper.
+    * `output/`: Output folder for benchmarks.
+      * `ASP/`: Generated ASP problems.
+        * `original/`: ASP problems generated during our evaluation for reference.
+      * `CSV/`: Generated benchmark log files.
+        * `original/`: Benchmark log files generated during our evaluation for reference.
+        * We also copied the CSV files from `original/` into this directory as placeholders to allow executing our data analysis scripts without running the full set of benchmarks first.
+      * `Refinery/`: Generated Refinery output models.
+        * `original/`: Refinery output models generated during our evaluation and their corresponding PNG visualizations for reference.
+    * `problemDescriptions/`: Refinery input models and their PNG visualizations.
+      * `hyperledger_fabric.refinery`: Reusable Refinery formalization of Hyperledger Fabric architectures.
+    * `refinery`/: Compiled binaries.
+      * `bin/`
+        * `refinery-blockchain`: Prototype blockchain generation tool.
+        * `refinery-language-web`: Refinery web frontend for visualization.
+      * `/lib`: Dependency jar files.
+* `models24-refinery-blockchain-sources.zip`: Source code of the artifact.
+  * `ASP`, `output`, `problemDescriptions`: See above.
+  * `benchmark_full.sh`, `benchmark_quick.sh`, `Evaluation_Kafka.ipynb`, `Evaluation_Raft.ipynb`: See above.
+  * `build.gradle`, `settings.gradle`: Configuration and dependency description files for the Gradle build environment.
+  * `Dockerfile`: Container build file.
+  * `environment.yml`: See above.
+  * `gradle/`, `gradlew`, `gradlew.bat`: Support files for the Gradle build environment.
+  * `jupyter_lab_config.py`: Configuration file for the Jupyter environment included in the Docker container.
+  * `models24-refinery-blockchain.pdf`: A copy of our paper.
+  * `refinery/`: Source code of the version of the Refinery framework used in out paper. In the Git repository, this folder if a Git submodule pointing to corresponding Git commit of the Refinery repository.
+  * `src/`: Source code of our prototype tool.
+
+The source code is also available at https://github.com/ftsrg/blockchain-generation/
+
+## Kick-the-tires
+
+1. You may import our Docker container image into Docker with the command
+    ```
+    docker import models24-refinery-blockchain.tar.gz models24-refinery-blockchain
+    ```
+
+    Alternatively, to build the image yourself, you may extract the source code from `models24-refinery-blockchain-sources.zip` and issue the command
+    ```
+    docker build . -t models24-refinery-blockchain
+    ```
+    in the directory where the archive was extracted, but this process may take up to 30 minutes.
+
+2. You may launch the container with
+    ```
+    docker run --rm -it -p 8888:8888 -p 8889:8889 models24-refinery-blockchain
+    ```
+
+    The container starts with an interactive shell in our preconfigured environment.
+
+3. We recommend running a subset set of the benchmarks with
+    ```
+    ./benchmark_quick.sh
+    ```
+
+    This may take up to 30 minutes if all iteration run until timeout, but can be faster (around 15 minutes) in practice.
+
+4. To visualize the results, start Jupyter in the background with
+    ```
+    jupyter lab &
+    ```
+    and navigate to the displayed URL in your browser on the host machine.
+
+    Open and re-run `Evaluation_Raft.ipynb` and `Evaluation_Kafka.ipynb` to generate the plots from our paper.
+    Since not all benchmarks were executed, some values displayed are placeholder from our original evaluation.
+
+5. To visualize the generated models, start the Refinery in-browser environment in the background with
+    ```
+    ./refinery/bin/refinery-language-web &
+    ```
+    and navigate to https://localhost:8889 in your browser on the host machine.
+
+    You may display a generated model by importing it into Refinery, e.g., replace the contents of the code editor (on the left) with
+    ```
+    import hyperledger_fabric.
+    import raft_size1::model0.
+    ```
+    to display the first generated model for the `raft_size1` task.
+
+    You may select which types and references to display using the _Display panel_, which can be opened using the top left button in the graph view (on the right). The top right _Export image_ button can be used to save the diagram as an SVG, PNG, or PDF file.
+
+    Larger models from our evaluation can be also displayed with imports like
+    ```
+    import hyperledger_fabric.
+    import raft_size6::model11.
+    ```
+
+## Reproducing the results of the paper
+
+1. You may import our Docker container image into Docker with the command
+    ```
+    docker import models24-refinery-blockchain.tar.gz models24-refinery-blockchain
+    ```
+
+    Alternatively, to build the image yourself, you may extract the source code from `models24-refinery-blockchain-sources.zip` and issue the command
+    ```
+    docker build . -t models24-refinery-blockchain
+    ```
+    in the directory where the archive was extracted, but this process may take up to 30 minutes.
+
+2. You may launch the container with
+    ```
+    docker run --rm -it -p 8888:8888 -p 8889:8889 models24-refinery-blockchain
+    ```
+
+    The container starts with an interactive shell in our preconfigured environment.
+
+3. We recommend running a subset set of the benchmarks with
+    ```
+    ./benchmark_full.sh
+    ```
+
+    This may take up to 24 hours if all iteration run until timeout, but can be much faster in practice depending on the hardware configuration.
+
+4. To visualize the results, start Jupyter in the background with
+    ```
+    jupyter lab &
+    ```
+    and navigate to the displayed URL in your browser on the host machine.
+
+    Open and re-run `Evaluation_Raft.ipynb` and `Evaluation_Kafka.ipynb` to generate the plots from our paper.
+    Since not all benchmarks were executed, some values displayed are placeholder from our original evaluation.
+
+    **These outputs support the following claims of our paper:**
+
+    * The plots titled _Median of Refinery Model Generation Runtime and Success rate_ support claims made about the runtime and success rate of Refinery in Section 5.3 of our paper by reproducing Figure 12. Note the values displayed on the plot may be influenced by the hardware configuration, but should show similar trends as in the paper.
+    * The plots titled _Median of ASP solving time_ support claims made about the runtime of ASP solving in Section 5.3 of our paper by reproducing Figure 13. Note the values displayed on the plot may be influenced by the hardware configuration, but should show similar trends as in the paper.
+    * The plots title _Cost/Resilience of the Solutions_ support claims made about the cost/resilience trade-off of generated architectures in Section 5.3 of our paper by reproducing Figure 14. Note that the solutions displayed on the plot depend on which iterations were successful, which may be influenced by the hardware configuration. The Pareto front in Figure 14(upper) was added manually in an image editor and is absent from the raw generated plot.
+
+5. To visualize the generated models, start the Refinery in-browser environment in the background with
+    ```
+    ./refinery/bin/refinery-language-web &
+    ```
+    and navigate to https://localhost:8889 in your browser on the host machine.
+
+    You may display a generated model by importing it into Refinery, e.g., replace the contents of the code editor (on the left) with
+    ```
+    import hyperledger_fabric.
+    import raft_size1::model0.
+    ```
+    to display the first generated model for the `raft_size1` task.
+
+    You may select which types and references to display using the _Display panel_, which can be opened using the top left button in the graph view (on the right). The top right _Export image_ button can be used to save the diagram as an SVG, PNG, or PDF file.
+
+    **These outputs support the following claim of our paper:**
+
+    * The generated models are a valid, diverse set of candidate blockchain architectures and are solutions the corresponding architecture generation problem. An example design is also shown in the paper in Figure 6.
+
+## Solving other architecture generation challenges
+
+### Customizing the synthesis problems
+
+To simplify working with the container, we recommend extracting the `ASP`, `problemDescriptions`, and `output` folders from the artifact sources (or the container image) and placing them in folders shared with the host machine:
+```
+run --rm -it -p 8888:8888 -p 8889:8889 -v "$PWD/ASP:/app/ASP" -v "$PWD/problemDescriptions:/app/problemDescriptions" -v "$PWD/output:/app/output" models24-refinery-blockchain
+```
+Thus, programs on the host machine may access Refinery and ASP problems and read outputs from the container image.
+
+#### Refinery problems
+
+We recommend using the Refinery web-based partial modeling environment to edit the Refinery problems.
+It can be started in the background in the container with
+```
+./refinery/bin/refinery-language-web &
+```
+and navigating to https://localhost:8889 in your browser on the host machine.
+
+We refer to Sections 3.2, 3.3 and 4.1 of our paper for further instructions on creating Refinery problems. Problems may `import` modules in the `problemDescriptions/` directory. In particular, you may use
+```
+import hyperledger_fabric.
+```
+to load a formalization of Hyperledger Fabric.
+
+#### ASP problems
+
+You may edit ASP problems in `ASP/` with a text editor on the host machine.
+We refer to Sections 2.5, 3.4 and 4.2 of our paper for further instructions on creating ASP problems.
+
+Facts are copied from generated Refinery models into ASP problems as shown in Section 3.4 of our paper.
+For technical reasons, types (unary predicates) are lower cased (e.g., `EndorsingNode` is turned into `endorsingnode`), since identifiers starting with uppercase letter refer to variables in ASP.
+
+The types `EndorsingNode`, `OrderingNode`, `Host`, `Organization`, `Channel`, and `ChaincodeInstance` and the references `peer`, `hosts`, `participatesIn`, `nodes`, `orderedBy`, `chaincodes`, `endorsedBy` are copied into ASP problems.
+This is sufficient for generating Hyperledger Fabric architectures.
+For other domains, the list of copied symbols should be adjusted in lines 121-138 (`generateASPCode` method) of `src/main/java/services/refinery/blockchain/RefineryASPExperiment.java` and the artifact should be re-compiled.
+
+Note that, as a slight difference from Section 3.4 of our paper, to simplify customization, the ASP formalisations in `ASP/` only compute the resilience score. Cost calculation is carried out based on the `networkUse` Refinery predicate directly in the Python data analysis scripts. Thus, a simple change to the cost functions does not require re-running the ASP solver.
+
+### Generating the architectures
+
+Our prototype tool, `./refinery/bin/refinery-blockchain` may automatically synthesize blockchain architectures. It supports the following command-line options:
+
+* `-problem` or `-p`: Name of the problem file (without the `.problem` extension) in `problemDescriptions/`.
+* `-asp` or `-a`: Path of the ASP problem in `ASP/`.
+* `-itemout` or `-t`: Timeout in seconds. We used a timeout of 300 seconds (5 minutes) in our paper.
+* `-warmup` or `-w`: Number of warm-up iterations to reduce noise in measurements. We used 5 iterations in our paper, but 0 is also acceptable if no precise performance measurements are needed.
+* `-runs` or `-r`: Number of model generation runs. Note that a run may fail (time out) for large problems. We used 30 runs in our paper, but a value of 1 is sufficient to try generating a single solution.
+
+For example,
+```
+./refinery/bin/refinery-blockchain -p raft_size2 -a analysis_raft.lp -t 60 -w 0 -r 10
+```
+attempts to generate 10 models (without warming up) using `problemDescriptions/raft_size2.problem` and `ASP/analysis_raft.lp` with a timeout of 60 seconds.
+
+Outputs are placed into `output/ASP/`, `output/CSV/`, and `output/Refinery/` into files and directories named according to the provided problem ID (`-p` argument).
+Be aware the previous outputs are overwritten without warning.
+
+### Visualizing the results
+
+You may display a generated model by importing it into the Refinery web-based editor, e.g., replace the contents of the code editor (on the left) with
+```
+import hyperledger_fabric.
+import raft_size1::model0.
+```
+to display the first generated model for the `raft_size1` task.
+Files in `output/Refinery/` can be imported by name by replacing forward slashed (`/`) in their path with `::` and omitting the `.refinery` file extension.
+
+To compute and plot the cost/resilience trade-off, start Jupyter in the background with
+```
+jupyter lab &
+```
+and navigate to the displayed URL in your browser on the host machine.
+
+We provide `Evaluation_Kafka.ipynb` and `Evaluation_Raft.ipynb` as examples.
+The `files` array at the beginning of the notebook should be adjusted to refer to the CSV files generated by our prototype tool.
+
+## License
+
+Copyright (c) 2024 Noor Al-Gburi, András Földvári, Kristóf Marussy, Oszkár Semeráth and Imre Kocsis
+
+Refinery is available under the Eclipse Public License - v 2.0.
+For more information, see the LICENSE file.

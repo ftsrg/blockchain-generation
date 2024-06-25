@@ -1,0 +1,14 @@
+This artifact is Docker container and required Docker to build or run.
+We used Docker version 26.1.4, but other compatible versions may also be suitable.
+
+Building the artifact using the supplied source code and `Dockerfile` downloads dependencies from the internet according to standard dependency specification files (`build.gradle`, `environment.yml`).
+However, our exported, pre-built container may be imported and run without an internet connection, as it already contains all dependencies.
+
+To access the web-based partial modeling and data analysis environments in the artifact, a modern web browser (e.g., recent releases of Chromium, Firefox, or Safari) is needed.
+To this end, the Docker container exposes ports 8888 and 8889, and local firewall settings should allow the browser to access these forwarded ports.
+
+Benchmarks were executed on a laptop with a 4-core Intel CPU and 32 GiB of RAM.
+Hardware with lesser specification may also be suitable, but may increase benchmark runtime and change benchmark results.
+
+For preliminary checks, a selected subset of benchmarks is supplied that may take 15-30 minutes to execute.
+The full benchmark suite may take up to 24 hours if all iterations time out, but may be much faster depending on the hardware configuration.

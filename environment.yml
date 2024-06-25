@@ -1,0 +1,10 @@
+name: refinery-blockchain
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - clingo=5.7.1
+  - jupyterlab=4.2.1
+  - nb_conda_kernels=2.5.1
+  - pandas=2.2.2
+  - plotly=5.22.0

@@ -1,0 +1,58 @@
+import hyperledger_fabric.
+declare network, OrgA, OrgB, OrgC, host1, channel1, channel2, channel3, endorsingNode1, host2, chaincodeInstance1, channel4, chaincodeInstance2, endorsingNode2, endorsingNode3, host3, endorsingNode4, chaincodeInstance3, chaincodeInstance4.
+!exists(Host::new).
+!exists(Channel::new).
+!exists(Organization::new).
+!exists(OrderingNode::new).
+!exists(EndorsingNode::new).
+!exists(ChaincodeInstance::new).
+!exists(KafkaFabricNetwork::new).
+!exists(RaftFabricNetwork::new).
+RaftFabricNetwork(network).
+Organization(OrgA).
+Organization(OrgB).
+Organization(OrgC).
+Host(host1).
+Channel(channel1).
+Channel(channel2).
+Channel(channel3).
+EndorsingNode(endorsingNode1).
+Host(host2).
+ChaincodeInstance(chaincodeInstance1).
+Channel(channel4).
+ChaincodeInstance(chaincodeInstance2).
+EndorsingNode(endorsingNode2).
+EndorsingNode(endorsingNode3).
+Host(host3).
+EndorsingNode(endorsingNode4).
+ChaincodeInstance(chaincodeInstance3).
+ChaincodeInstance(chaincodeInstance4).
+nodes(host1, endorsingNode1).
+nodes(host1, endorsingNode2).
+nodes(host2, endorsingNode3).
+nodes(host3, endorsingNode4).
+organizations(network, OrgA).
+organizations(network, OrgB).
+organizations(network, OrgC).
+channels(network, channel1).
+channels(network, channel2).
+channels(network, channel3).
+channels(network, channel4).
+chaincodes(channel1, chaincodeInstance1).
+chaincodes(channel2, chaincodeInstance4).
+chaincodes(channel3, chaincodeInstance2).
+chaincodes(channel4, chaincodeInstance3).
+hosts(OrgA, host2).
+hosts(OrgB, host3).
+hosts(OrgC, host1).
+default !orderedBy(*, *).
+default !endorses(*, *).
+endorses(endorsingNode1, chaincodeInstance1).
+endorses(endorsingNode1, chaincodeInstance2).
+endorses(endorsingNode1, chaincodeInstance3).
+endorses(endorsingNode2, chaincodeInstance1).
+endorses(endorsingNode2, chaincodeInstance3).
+endorses(endorsingNode2, chaincodeInstance4).
+endorses(endorsingNode3, chaincodeInstance2).
+endorses(endorsingNode3, chaincodeInstance4).
+endorses(endorsingNode4, chaincodeInstance1).

@@ -1,0 +1,3 @@
+rootProject.name = 'refinery-blockchain'
+
+includeBuild('refinery')

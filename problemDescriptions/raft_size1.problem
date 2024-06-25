@@ -1,0 +1,20 @@
+import hyperledger_fabric.
+
+RaftFabricNetwork(network).
+!exists(OrderingNode::new).
+!exists(Organization::new).
+Organization(OrgA).
+Organization(OrgB).
+Organization(OrgC).
+
+!collaboratesWith(OrgA, OrgB).
+%!collaboratesWith(OrgB, OrgA).
+collaboratesWith(OrgA, OrgC).
+%collaboratesWith(OrgC, OrgA).
+collaboratesWith(OrgB, OrgC).
+%collaboratesWith(OrgC, OrgB).
+
+scope node = 15..25,
+  Node = 3..15,
+  Channel = 3..*,
+  FabricNetwork = 1.

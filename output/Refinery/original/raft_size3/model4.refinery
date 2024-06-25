@@ -1,0 +1,105 @@
+import hyperledger_fabric.
+declare network, OrgA, OrgB, OrgC, OrgD, OrgE, OrgF, chaincodeInstance1, host1, host2, host3, host4, host5, endorsingNode1, host6, endorsingNode2, endorsingNode3, endorsingNode4, endorsingNode5, channel1, endorsingNode6, channel2, channel3, channel4, host7, chaincodeInstance2, chaincodeInstance3, host8, endorsingNode7, chaincodeInstance4, endorsingNode8, endorsingNode9, endorsingNode10, endorsingNode11, chaincodeInstance5.
+!exists(Host::new).
+!exists(Channel::new).
+!exists(Organization::new).
+!exists(OrderingNode::new).
+!exists(EndorsingNode::new).
+!exists(ChaincodeInstance::new).
+!exists(KafkaFabricNetwork::new).
+!exists(RaftFabricNetwork::new).
+ChaincodeInstance(chaincodeInstance1).
+RaftFabricNetwork(network).
+Organization(OrgA).
+Organization(OrgB).
+Organization(OrgC).
+Organization(OrgD).
+Organization(OrgE).
+Organization(OrgF).
+Host(host1).
+Host(host2).
+Host(host3).
+Host(host4).
+Host(host5).
+EndorsingNode(endorsingNode1).
+Host(host6).
+EndorsingNode(endorsingNode2).
+EndorsingNode(endorsingNode3).
+EndorsingNode(endorsingNode4).
+EndorsingNode(endorsingNode5).
+Channel(channel1).
+EndorsingNode(endorsingNode6).
+Channel(channel2).
+Channel(channel3).
+Channel(channel4).
+Host(host7).
+ChaincodeInstance(chaincodeInstance2).
+ChaincodeInstance(chaincodeInstance3).
+Host(host8).
+EndorsingNode(endorsingNode7).
+ChaincodeInstance(chaincodeInstance4).
+EndorsingNode(endorsingNode8).
+EndorsingNode(endorsingNode9).
+EndorsingNode(endorsingNode10).
+EndorsingNode(endorsingNode11).
+ChaincodeInstance(chaincodeInstance5).
+nodes(host1, endorsingNode1).
+nodes(host2, endorsingNode3).
+nodes(host2, endorsingNode8).
+nodes(host3, endorsingNode2).
+nodes(host4, endorsingNode4).
+nodes(host4, endorsingNode10).
+nodes(host5, endorsingNode5).
+nodes(host5, endorsingNode11).
+nodes(host6, endorsingNode6).
+nodes(host7, endorsingNode7).
+nodes(host8, endorsingNode9).
+organizations(network, OrgA).
+organizations(network, OrgB).
+organizations(network, OrgC).
+organizations(network, OrgD).
+organizations(network, OrgE).
+organizations(network, OrgF).
+channels(network, channel1).
+channels(network, channel2).
+channels(network, channel3).
+channels(network, channel4).
+chaincodes(channel1, chaincodeInstance2).
+chaincodes(channel2, chaincodeInstance1).
+chaincodes(channel3, chaincodeInstance3).
+chaincodes(channel4, chaincodeInstance4).
+chaincodes(channel4, chaincodeInstance5).
+hosts(OrgA, host4).
+hosts(OrgB, host3).
+hosts(OrgB, host6).
+hosts(OrgC, host1).
+hosts(OrgC, host5).
+hosts(OrgD, host8).
+hosts(OrgE, host7).
+hosts(OrgF, host2).
+default !orderedBy(*, *).
+default !endorses(*, *).
+endorses(endorsingNode1, chaincodeInstance1).
+endorses(endorsingNode1, chaincodeInstance2).
+endorses(endorsingNode1, chaincodeInstance3).
+endorses(endorsingNode1, chaincodeInstance4).
+endorses(endorsingNode1, chaincodeInstance5).
+endorses(endorsingNode2, chaincodeInstance3).
+endorses(endorsingNode3, chaincodeInstance2).
+endorses(endorsingNode3, chaincodeInstance4).
+endorses(endorsingNode3, chaincodeInstance5).
+endorses(endorsingNode4, chaincodeInstance2).
+endorses(endorsingNode5, chaincodeInstance1).
+endorses(endorsingNode5, chaincodeInstance2).
+endorses(endorsingNode5, chaincodeInstance3).
+endorses(endorsingNode5, chaincodeInstance5).
+endorses(endorsingNode6, chaincodeInstance3).
+endorses(endorsingNode7, chaincodeInstance1).
+endorses(endorsingNode7, chaincodeInstance3).
+endorses(endorsingNode8, chaincodeInstance2).
+endorses(endorsingNode8, chaincodeInstance4).
+endorses(endorsingNode8, chaincodeInstance5).
+endorses(endorsingNode9, chaincodeInstance1).
+endorses(endorsingNode9, chaincodeInstance4).
+endorses(endorsingNode10, chaincodeInstance2).
+endorses(endorsingNode11, chaincodeInstance2).

@@ -1,0 +1,84 @@
+/** @color #a8d6ff */
+class Host{
+    contains Node[1..4] nodes
+}
+
+abstract class Node {}
+
+abstract class FabricNetwork {
+    contains Organization[1..*] organizations // At least one Organization
+    contains Channel[1..*] channels // At least one Channel
+    
+}
+
+/** @color 8 */
+class Channel {
+    contains ChaincodeInstance[1..*] chaincodes //Each node contains one or more chaincode sources
+    OrderingNode[0..*] orderedBy opposite orders
+}
+
+/** @color 4 */
+class Organization {
+    contains Host[1..*] hosts 
+
+}
+
+/** @color #d4f8bc */
+class OrderingNode extends Node {
+    Channel[1..*] orders opposite orderedBy
+}
+
+/** @color 2 */
+class EndorsingNode extends Node {
+    ChaincodeInstance[1..*] endorses opposite endorsedBy
+}
+
+pred peerHelper(Channel c, Host h, Node n) <->
+    orders(n, c),
+    nodes(h, n)
+;
+    chaincodes(c, i),
+    endorses(n, i),
+    nodes(h, n).
+
+pred peer(n, c) <-> peerHelper(c, _, n).
+
+/** @color 0 */
+class ChaincodeInstance {
+    EndorsingNode[2..*] endorsedBy opposite endorses
+}
+
+/** @color 6 */
+class KafkaFabricNetwork extends FabricNetwork {}
+/** @color 1 */
+class RaftFabricNetwork extends FabricNetwork {}
+
+pred participatesIn(o,c) <->
+    hosts(o,h),
+    peerHelper(c,h,_).
+
+pred ordererOrganization(o)<-> 
+    Organization(o),
+    hosts(o, h),
+    nodes(h, n),
+    OrderingNode(n).
+
+error invalidOrdererOrganization(o) <->
+    ordererOrganization(o),
+    organizations(n, o),
+    !KafkaFabricNetwork(n).
+
+error channelInKafkaNetworkWithoutOrderer(c) <->
+    FabricNetwork::channels(n, c),
+    KafkaFabricNetwork(n),
+    !orderedBy(c, _).
+
+pred collaboratesWith(Organization o1, Organization o2) <->
+    o1 != o2,
+    participatesIn(o1, c),
+    participatesIn(o2, c).
+
+pred networkUse(Node n1, Node n2) <->
+    h1 != h2,
+    peerHelper(c,h1,n1),
+    peerHelper(c,h2,n2).

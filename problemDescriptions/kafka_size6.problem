@@ -1,0 +1,68 @@
+import hyperledger_fabric.
+
+KafkaFabricNetwork(network).
+!exists(Organization::new).
+Organization(OrgA).
+Organization(OrgB).
+Organization(OrgC).
+
+Organization(OrgD).
+Organization(OrgE).
+Organization(OrgF).
+
+Organization(OrgG).
+Organization(OrgH).
+Organization(OrgI).
+
+Organization(OrgJ).
+Organization(OrgK).
+Organization(OrgL).
+
+Organization(OrgM).
+Organization(OrgN).
+Organization(OrgO).
+
+!collaboratesWith(OrgA, OrgB).
+collaboratesWith(OrgA, OrgC).
+collaboratesWith(OrgB, OrgC).
+
+collaboratesWith(OrgF,OrgD).
+collaboratesWith(OrgE,OrgD).
+!collaboratesWith(OrgE, OrgF).
+
+!collaboratesWith(OrgB, OrgD).
+!collaboratesWith(OrgA, OrgD).
+
+
+
+collaboratesWith(OrgH, OrgG).
+collaboratesWith(OrgI, OrgG).
+!collaboratesWith(OrgH, OrgI).
+collaboratesWith(OrgF , OrgG).
+
+!collaboratesWith(OrgE, OrgG).
+!collaboratesWith(OrgD, OrgG).
+
+collaboratesWith(OrgL, OrgJ).
+collaboratesWith(OrgK, OrgJ).
+!collaboratesWith(OrgK, OrgL).
+collaboratesWith(OrgI , OrgJ).
+
+!collaboratesWith(OrgG, OrgJ).
+!collaboratesWith(OrgH, OrgJ).
+
+collaboratesWith(OrgN, OrgM).
+collaboratesWith(OrgO, OrgM).
+!collaboratesWith(OrgN, OrgO).
+collaboratesWith(OrgL , OrgM).
+
+!collaboratesWith(OrgJ, OrgM).
+!collaboratesWith(OrgK, OrgM).
+
+
+ scope node = 20..140,
+   Node = 10..80,
+   OrderingNode = 5..40,
+   EndorsingNode = 5..40,
+   Channel = 5..*,
+   FabricNetwork = 1.

@@ -1,0 +1,22 @@
+We claim the **Available** badge:
+
+* The artifact is available on Zenodo at https://doi.org/10.5281/zenodo.12556827 under the Eclipse Public License - v2.0
+
+We claim the **Functional** badge:
+
+* The artifact contains benchmark and data analysis scripts that reproduce our evaluation from Section 5 of our paper. In particular,
+  * The generated plots titled _Median of Refinery Model Generation Runtime and Success rate_ support claims made about the runtime and success rate of Refinery in Section 5.3 of our paper by reproducing Figure 12.
+  * The generated plots titled _Median of ASP solving time_ support claims made about the runtime of ASP solving in Section 5.3 of our paper by reproducing Figure 13.
+  * The generated plots title _Cost/Resilience of the Solutions_ support claims made about the cost/resilience trade-off of generated architectures in Section 5.3 of our paper by reproducing Figure 14.
+  * The generated models are a valid, diverse set of candidate blockchain architectures and are solutions the corresponding architecture generation problem. An example design is also shown in the paper in Figure 6.
+* After running the benchmarks, these claims can be verified using the included Jupyter web-based data analysis environment.
+
+We claim the **Reusable** badge:
+
+* The structure of the artifact and our prototype tool is clearly documented to facilitate reuse and enable building new software tools and artifacts on it.
+* The prototype can be reused to solve further blockchain architecture synthesis challenges. In particular,
+  * A Refinery formalization of Hyperledger Fabric architectures is included in the artifact.
+  * The Refinery and ASP problems can be customized to suit the synthesis challenge.
+  * A Refinery web-based partial modeling environment is included to facilitate customizing the Refinery problems.
+  * The prototype tool can be used to execute the synthesis.
+  * A Jupyter web-based data analysis environment in included to analyze the cost/resilience trade-offs (or trade-offs in other metrics as formalized in the ASP problem).

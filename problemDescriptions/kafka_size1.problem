@@ -1,0 +1,18 @@
+import hyperledger_fabric.
+
+KafkaFabricNetwork(network).
+!exists(Organization::new).
+Organization(OrgA).
+Organization(OrgB).
+Organization(OrgC).
+
+!collaboratesWith(OrgA, OrgB).
+collaboratesWith(OrgA, OrgC).
+collaboratesWith(OrgB, OrgC).
+
+scope node = 15..60,
+  Node = 8..30,
+  OrderingNode = 4..15,
+  EndorsingNode = 4..15,
+  Channel = 3..*,
+  FabricNetwork = 1.

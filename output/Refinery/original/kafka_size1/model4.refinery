@@ -1,0 +1,81 @@
+import hyperledger_fabric.
+declare network, OrgA, OrgB, OrgC, host1, channel1, host2, host3, orderingNode1, host4, endorsingNode1, endorsingNode2, orderingNode2, endorsingNode3, orderingNode3, orderingNode4, endorsingNode4, chaincodeInstance1, orderingNode5, channel2, chaincodeInstance2, endorsingNode5, channel3, orderingNode6, chaincodeInstance3.
+!exists(Host::new).
+!exists(Channel::new).
+!exists(Organization::new).
+!exists(OrderingNode::new).
+!exists(EndorsingNode::new).
+!exists(ChaincodeInstance::new).
+!exists(KafkaFabricNetwork::new).
+!exists(RaftFabricNetwork::new).
+KafkaFabricNetwork(network).
+Organization(OrgA).
+Organization(OrgB).
+Organization(OrgC).
+Host(host1).
+Channel(channel1).
+Host(host2).
+Host(host3).
+OrderingNode(orderingNode1).
+Host(host4).
+EndorsingNode(endorsingNode1).
+EndorsingNode(endorsingNode2).
+OrderingNode(orderingNode2).
+EndorsingNode(endorsingNode3).
+OrderingNode(orderingNode3).
+OrderingNode(orderingNode4).
+EndorsingNode(endorsingNode4).
+ChaincodeInstance(chaincodeInstance1).
+OrderingNode(orderingNode5).
+Channel(channel2).
+ChaincodeInstance(chaincodeInstance2).
+EndorsingNode(endorsingNode5).
+Channel(channel3).
+OrderingNode(orderingNode6).
+ChaincodeInstance(chaincodeInstance3).
+nodes(host1, orderingNode3).
+nodes(host1, endorsingNode4).
+nodes(host1, orderingNode5).
+nodes(host1, endorsingNode5).
+nodes(host2, orderingNode1).
+nodes(host2, endorsingNode3).
+nodes(host3, endorsingNode1).
+nodes(host3, endorsingNode2).
+nodes(host3, orderingNode2).
+nodes(host3, orderingNode6).
+nodes(host4, orderingNode4).
+organizations(network, OrgA).
+organizations(network, OrgB).
+organizations(network, OrgC).
+channels(network, channel1).
+channels(network, channel2).
+channels(network, channel3).
+chaincodes(channel1, chaincodeInstance1).
+chaincodes(channel2, chaincodeInstance2).
+chaincodes(channel3, chaincodeInstance3).
+hosts(OrgA, host3).
+hosts(OrgB, host2).
+hosts(OrgC, host1).
+hosts(OrgC, host4).
+default !orderedBy(*, *).
+orderedBy(channel1, orderingNode1).
+orderedBy(channel1, orderingNode3).
+orderedBy(channel1, orderingNode4).
+orderedBy(channel1, orderingNode5).
+orderedBy(channel2, orderingNode2).
+orderedBy(channel2, orderingNode3).
+orderedBy(channel2, orderingNode4).
+orderedBy(channel2, orderingNode5).
+orderedBy(channel2, orderingNode6).
+orderedBy(channel3, orderingNode1).
+orderedBy(channel3, orderingNode3).
+orderedBy(channel3, orderingNode5).
+default !endorses(*, *).
+endorses(endorsingNode1, chaincodeInstance2).
+endorses(endorsingNode2, chaincodeInstance2).
+endorses(endorsingNode3, chaincodeInstance1).
+endorses(endorsingNode4, chaincodeInstance1).
+endorses(endorsingNode4, chaincodeInstance2).
+endorses(endorsingNode4, chaincodeInstance3).
+endorses(endorsingNode5, chaincodeInstance2).
+endorses(endorsingNode5, chaincodeInstance3).
